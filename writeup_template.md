@@ -1,30 +1,17 @@
-#**Behavioral Cloning** 
-
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
----
-
 **Behavioral Cloning Project**
 
-The goals / steps of this project are the following:
-* Use the simulator to collect data of good driving behavior
-* Build, a convolution neural network in Keras that predicts steering angles from images
-* Train and validate the model with a training and validation set
-* Test that the model successfully drives around track one without leaving the road
-* Summarize the results with a written report
+The code and writeup contained in this repository are submitted for the third Udacity self driving car nano-degree. The aim of the project is to collect driver behaviour data and use it to train a neural network which will itself be able to drive a car around a track. Success in this project is measured by training a network which can complete one lap of the test track.
 
 
-[//]: # (Image References)
+**Data Collection**
+To start a project like this we need data. The data is collected using the training mode in the [Udacity driving simulator](https://github.com/udacity/self-driving-car-sim).
+![SimulatorEnviroment](examples/SimImage.JPG)
+The car is driven around the track using the mouse to control the steering and your arrow keys to control the throttle and brakes. I recorded 1 lap of the car driving in each direction. The track is essentially a loop and by collecting data with the car driving in both directions this ensured that my data did not have a bias towards left or right hand turns.
 
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+**Data Augmentation**
+I decided as a challenge I would only record data from the first track and see if I could develop a network that was robust enough to drive around the second track with letting the network see it first. As you can see visually the track is very different, it also has sharper corners and larger changes in track gradient.
+![Second Track](examples/SimImage2.JPG)
+To help with my challenge I referenced this excellent article by [Vivek Yadav](https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9). My key take away from Vivek's article is that when augmenting data it must be realistic. To that end I borrowed two of his augmentation techniques. The first was to generate augmented images with random horizontal and vertical shifts. By introducing horizontal shifts I am trying to train the network to cope with sharper corners. Likewise by introducing vertical shifts I am trying to train the network to deal with changes in gradient on the road. The primary test track is a very gentle track to drive around with a maximum steering angle of roughly 5&deg; 
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
