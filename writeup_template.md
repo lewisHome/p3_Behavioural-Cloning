@@ -16,7 +16,7 @@ The car is driven around the track using the mouse to control the steering and y
 An important lesson from the traffic sign classifier I built for project 2 is that data augmentation must be carried out in a considered manner such that the augmented data generated is realistic and relevant. For example randomly flipping images upside down will be of no benefit. [Vivek Yadav](https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9) has done an excellent writeup on the data augmentation techniques he used when he did this project in the first CarND cohort last year. I shamelessly borrowed two techniques the first was to simulate greater angles and the second was to simulate shadows over the track.
 
 Here is a video of the car as it drives around the track.
-![Track1Video](examples/Track1.mp4)
+![Track1Video](examples/Track1.gif)
 
 
 
