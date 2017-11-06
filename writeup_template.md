@@ -17,19 +17,30 @@ To train an end to end network to drive a car we need data and this is collected
 The car is driven around the track using the mouse to control the steering and your arrow keys to control the throttle and brakes. The simulator records the image data and the telemetry data. The telemetry data is recorded in a csv file formatted as shown in the table below.
 
 Centre Image | Left Image | Right Image | Steering Angle | Throttle Value | Brake Value | Speed Value 
--------------|------------|-------------|----------------|----------------|-------------|-------------
-![Centre Image](examples/center_2016_12_01_13_32_43_457.jpg) | ![Left Image](examples/left_2016_12_01_13_32_43_457.jpg)| ![Right Image](examples/right_2016_12_01_13_32_43_457.jpg)| 0.0617599 | 0.9855326 | 0 | 2.124567
+-------------|-------------|-------------|-------------|-------------|-------------|-------------
+IMG/center_2016_12_01_13_32_43_457.jpg | IMG/left_2016_12_01_13_32_43_457.jpg | IMG/right_2016_12_01_13_32_43_457.jpg | 0.0617599 | 0.9855326 | 0 | 2.124567
 
-I recorded 1 lap of the car driving in each direction. The track is essentially a loop and by collecting data with the car driving in both directions this ensured that my data did not have a bias towards left or right hand turns.
+Initially I tried to collect my own data. I recorded 1 lap of the car driving in each direction. The track is essentially a loop and by collecting data with the car driving in both directions this ensured that my data did not have a bias towards left or right hand turns. As I progressed through the project I found that the quality of the data I collected was not very good, that is I was not very good at driving the car in the simulator. To overcome this I trained my final model using the [Udacity data set](https://www.dropbox.com/s/2mfk5a2v2zymr3e/Dataset.zip?dl=0).
 
-**Network Architecture**
+## Data Augmentation
 
-**Data Augmentation**
+For me an important lesson from the previous project Traffic sign classifier was that for data augmentation to be worthwhile it must be done in a manner such that the augmented data generated is realistic and relevant. For example randomly flipping images upside down will be of no benefit. The first method of data augmentation I used utilised the cameras on the sides of the vehicle which are recorded concurrently with the central camera image from the simulator. This allows me to collect data in which it appears the vehicle is vearing the side of the track. Further to this I leaned heavily on an article by [Vivek Yadav](https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9) on the data augmentation techniques he used when he did this project. I shamelessly borrowed two techniques the first was to simulate greater angles and gradients and the second was to simulate shadows over the track.
 
-An important lesson from the traffic sign classifier I built for project 2 is that data augmentation must be carried out in a considered manner such that the augmented data generated is realistic and relevant. For example randomly flipping images upside down will be of no benefit. [Vivek Yadav](https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9) has done an excellent writeup on the data augmentation techniques he used when he did this project in the first CarND cohort last year. I shamelessly borrowed two techniques the first was to simulate greater angles and the second was to simulate shadows over the track.
+### Side View Cameras
 
-Here is a video of the car as it drives around the track.
-![Track1Video](examples/Track1.gif)
+Left Camera Image | Centre Camera Image | Right Camera Image
+------------------|------------------|------------------|
+![Left Image](examples/left_2016_12_01_13_32_43_457.jpg)|![Centre Image](examples/center_2016_12_01_13_32_43_457.jpg) |![Right Image](examples/right_2016_12_01_13_32_43_457.jpg)
+
+### Angle and Gradient Simulation
+
+
+
+## Network Architecture
+
+
+Here is a video of my car driving around the test track using my first the car as it drives around the track.
+![Track1Video](examples/Track1.mp4)
 
 
 
