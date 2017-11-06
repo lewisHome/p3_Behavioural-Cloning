@@ -32,6 +32,21 @@ Left Camera Image | Centre Camera Image | Right Camera Image
 ------------------|------------------|------------------|
 ![Left Image](examples/left_2016_12_01_13_32_43_457.jpg)|![Centre Image](examples/center_2016_12_01_13_32_43_457.jpg) |![Right Image](examples/right_2016_12_01_13_32_43_457.jpg)
 
+To generate the steering angles for the side view cameras I applied a correction factor to the steering angles.
+
+'''python
+for i in range(3):
+    name = batch_sample[i].split('/')[-1]
+    image = cv2.cvtColor(cv2.imread(name),cv2.COLOR_BGR2RGB)
+    #crop image to show road only
+    if i == 0:
+        angle = float(batch_sample[3])
+    elif i == 1:
+        angle = float(batch_sample[3])+correction
+    elif i == 2:
+        angle = float(batch_sample[3])- correction
+'''
+
 ### Angle and Gradient Simulation
 
 
