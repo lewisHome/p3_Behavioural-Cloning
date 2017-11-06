@@ -28,27 +28,50 @@ For me an important lesson from the previous project Traffic sign classifier was
 
 ### Side View Cameras
 
-Left Camera Image | Centre Camera Image | Right Camera Image
+Centre Camera Image | Left Camera Image | Right Camera Image
 ------------------|------------------|------------------|
-![Left Image](examples/left_2016_12_01_13_32_43_457.jpg)|![Centre Image](examples/center_2016_12_01_13_32_43_457.jpg) |![Right Image](examples/right_2016_12_01_13_32_43_457.jpg)
+![Centre Image](examples/center_2016_12_01_13_32_43_457.jpg) |![Left Image](examples/left_2016_12_01_13_32_43_457.jpg)|![Right Image](examples/right_2016_12_01_13_32_43_457.jpg)
 
 To generate the steering angles for the side view cameras I applied a correction factor to the steering angles.
 
+    #steering correction factor
     correction = 0.2 
+    #loop through three image as listed in driving log
     for i in range(3):
+        #load filename from driving log
         name = batch_sample[i].split('/')[-1]
+        
+        #import image using opencv and convert colour space from BGR to RGB
         image = cv2.cvtColor(cv2.imread(name),cv2.COLOR_BGR2RGB)
+        
+        #for the centre image the steering angle 
+        #is that which has been recorded
         if i == 0:
             angle = float(batch_sample[3])
+        
+        #for the left camera image the car needs 
+        #to steer to the right so the correction factor
+        #is added to the recorded steering angle
         elif i == 1:
             angle = float(batch_sample[3]) + correction
+            
+        #for the right camera image the car needs
+        #to steer to the left so the correction factor
+        #is subtracted from the recorded steering angle            
         elif i == 2:
             angle = float(batch_sample[3]) - correction
             
+This additional data allows the car to learn what to do if it the vehicle is not aligned with the road centre line.
 
 ### Angle and Gradient Simulation
 
+To further suplement the data I applied translations to the image to simulate the car driving on gradients by applying vertical translations to the image data. I also applied horizontal translations to the image data to further supplement data for cornering.
 
+Input Image | Translated Image Example 1 | Translated Image Example 2 | Translated Image Example 3
+------------|------------|------------|------------
+![Centre Image](examples/center_2016_12_01_13_32_43_457.jpg) |![Image Translate 1](examples/center_2016_12_01_13_32_43_457_translate_0.jpg)|![Image Translate 1](examples/center_2016_12_01_13_32_43_457_translate_1.jpg)|![Image Translate 2](examples/center_2016_12_01_13_32_43_457_translate_2.jpg)
+Steering Angle | Augmented Steering Angle | Augmented Steering Angle | Augmented Steering Angle 
+0.0617599 | 0.2400561374026167 | -0.030398056564315934 | 0.04933732241641371
 
 ## Network Architecture
 
