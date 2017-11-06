@@ -24,7 +24,9 @@ Initially I tried to collect my own data. I recorded 1 lap of the car driving in
 
 ## Data Augmentation
 
-For me an important lesson from the previous project Traffic sign classifier was that for data augmentation to be worthwhile it must be done in a manner such that the augmented data generated is realistic and relevant. For example randomly flipping images upside down will be of no benefit. The first method of data augmentation I used utilised the cameras on the sides of the vehicle which are recorded concurrently with the central camera image from the simulator. This allows me to collect data in which it appears the vehicle is vearing the side of the track. Further to this I leaned heavily on an article by [Vivek Yadav](https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9) on the data augmentation techniques he used when he did this project. I shamelessly borrowed two techniques the first was to simulate greater angles and gradients and the second was to simulate shadows over the track.
+For me an important lesson from the previous project Traffic sign classifier was that for data augmentation to be worthwhile it must be done in a manner such that the augmented data generated is realistic and relevant. For example randomly flipping images upside down will be of no benefit. However flipping the images through the vertical axis will be of benefit as it simulates driving around corners in the opposite diretion. 
+
+The first method of data augmentation I used utilised the cameras on the sides of the vehicle which are recorded concurrently with the central camera image from the simulator. This allows me to collect data in which it appears the vehicle is vearing the side of the track. I also flipped all images through the vertical axis and inverted the steering angles. Further to this I leaned heavily on an article by [Vivek Yadav](https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9) on the data augmentation techniques he used when he did this project. I shamelessly borrowed two techniques the first was to simulate greater angles and gradients and the second was to simulate shadows over the track.
 
 ### Side View Cameras
 
@@ -62,6 +64,24 @@ To generate the steering angles for the side view cameras I applied a correction
             angle = float(batch_sample[3]) - correction
             
 This additional data allows the car to learn what to do if it the vehicle is not aligned with the road centre line.
+
+### Flipping Images Through Vertical Axis
+
+As mentioned earlier flipping images through the veritcal axis allows us to simulate left hand corners as right hand corners and vise versa.
+
+I utilised the opencv function fliplr to accomplish the image manipulation
+
+    imageFlip = cv2.flip(image,1)
+   
+I inverted the steering angle simply by multiplying the steering angle by the float -1.0
+
+    angle = angle*-1.0
+
+Image Input | Flipped Image
+------------|------------
+![Input Image](examples/center_2016_12_01_13_33_08_039.jpg)|![Flipped Image](examples/center_2016_12_01_13_33_08_039_flip.jpg)|
+Steering Angle| Flipped Steering Angle
+0.243562 | -0.243562
 
 ### Angle and Gradient Simulation
 
