@@ -13,7 +13,7 @@ Test Track for Submission | Second Test Track
 
 ## Prior Work
 
-NVIDIA developed an [end to end method of driving a car](https://arxiv.org/abs/1604.07316) using a Convolutional Neural Network to control the steering of a car. That is they trained a network that took images from a central forward facing camera as an input and used steering angle as the trainable output. They posit that this method will eventually allow for better performance from smaller systems as the network internally learns to look for important road features. This approach is in contrast to the method of a human predefining features to look for such as lane markings etc.
+NVIDIA developed an [end to end method of driving a car](https://arxiv.org/abs/1604.07316) using a Convolutional Neural Network to control the steering of a car. That is they trained a network that took images from a central forward facing camera as an input and used steering angle as the trainable output. They posit that this method will eventually allow for better performance from smaller systems as the network internally learns to look for important road features. This approach is in contrast to the method of a human predefining features to look for such as lane markings etc. Interestingly in the paper they show that the network does learn to look for the same salient features for predicting the required steering angle that a human would.
 
 ## Data Collection
 
@@ -154,15 +154,25 @@ Input Image | Translated Image Example 1 | Translated Image Example 2 | Translat
 This augmentation technique does not simulate a shift in the camera and therefore the steering angle which accompanies this augmentation technique is that recorded for the centre camera or derived for the left and right hand cameras as outlined earlier.
  
 ## Network Architecture
+The first network I used was based on the LeNet architecture that we used in previous projects. That network was reasonable but it did not complete a lap of the test track and so I have not included the results on this report.
 
+I then built the NVIDIA network using keras 1.0 and tensorflow 1.3. I used their network architecture with some minor modifications.
+![NVIDIAnet](examples/NVIDIAnet.jpg)
+To reduce over fitting I included a dropout layer between each of the fully connected layers.
+
+As discussed below when driving on the second test track with the NVIDIA network I drove off the track at the first sharp corner. I thought that this might be because I was driving into the corner to fast. I therefore
 
 
 ## Results
-### NVIDIA Network on First Test Track
+### First Test Track
 Here is a video of my car driving around the test track using my first the car as it drives around the track.
 ![Track1Video](examples/Track1.mp4)
 
-### NVIDIA Network on Second Test Track
+### Second Test Track
+
+## Second Network Architecture
+I thought that perhaps the reason I keep driving off the second track at the first sharp corner is because I was driving too fast into the corner. [Drive.py line xx](drive.py) sets the speed to a constant value. So I decided to build a second network that predicts the throttle and the steering angle. I built the network using the functional API from keras2.0 and TensorFlow1.3.
+![Steering_and_throttle_net](examples/Steering_and_Throttle_net.jpg)
 
 ### Steering and Speed Network on First Test Track
 
