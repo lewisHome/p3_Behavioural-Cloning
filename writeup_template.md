@@ -1,13 +1,26 @@
-## Behavioral Cloning Project
+# Behavioral Cloning Project
 
-The code and writeup contained in this repository are submitted for the third Udacity self driving car nano-degree. The aim of the project is to collect driver behaviour data and use it to train a neural network which will itself be able to drive a car around a track. Success in this project is measured by training a network which can complete one lap of the test track.
+The code and writeup contained in this repository are submitted for the third Udacity self driving car nano-degree project. The aim of the project is to collect driver behaviour data and use it to train a neural network which will then be able to drive a car around a track. 
 
+For a successful submission in this project it must be shown that the trained network is able to drive the car around the track once. A second track is also avaliable in the simulator and if possible it would be good if the car could drive around this track too.
 
-**Data Collection**
+The approach I took to the second track was that becuase it is not necessary to complete a lap of the second track I would try and train my network on the first track only and see if I could get it to drive around the second track based off of that experience.
 
-To start a project like this we need data. The data is collected using the training mode in the [Udacity driving simulator](https://github.com/udacity/self-driving-car-sim).
+## Prior Work
+
+NVIDIA developed an [end to end method of driving a car](https://arxiv.org/abs/1604.07316) using a Convolutional Neural Network to control the steering of a car. That is they trained a network that took images from a central forward facing camera as an input and used steering angle as the trainable output. They posit that this method will eventually allow for better performance from smaller systems as the network internally learns to look for important road features. This approach is in contrast to the method of a human predefining features to look for such as lane markings etc.
+
+## Data Collection
+
+To train an end to end network to drive a car we need data and this is collected using the [Udacity driving simulator](https://github.com/udacity/self-driving-car-sim).
 ![SimulatorEnviroment](examples/SimImage.JPG)
-The car is driven around the track using the mouse to control the steering and your arrow keys to control the throttle and brakes. I recorded 1 lap of the car driving in each direction. The track is essentially a loop and by collecting data with the car driving in both directions this ensured that my data did not have a bias towards left or right hand turns.
+The car is driven around the track using the mouse to control the steering and your arrow keys to control the throttle and brakes. The simulator records the image data and the telemetry data. The telemetry data is recorded in a csv file formatted as shown in the table below.
+
+Centre Image | Left Image | Right Image | Steering Angle | Throttle Value | Brake Value | Speed Value 
+-------------|------------|-------------|----------------|----------------|-------------|-------------
+![Centre Image](examples/center_2016_12_01_13_32_43_457.jpg) | ![Left Image](examples/left_2016_12_01_13_32_43_457.jpg)| ![Right Image](examples/right_2016_12_01_13_32_43_457.jpg)| 0.0617599 | 0.9855326 | 0 | 2.124567
+
+I recorded 1 lap of the car driving in each direction. The track is essentially a loop and by collecting data with the car driving in both directions this ensured that my data did not have a bias towards left or right hand turns.
 
 **Network Architecture**
 
