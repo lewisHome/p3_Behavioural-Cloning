@@ -67,12 +67,68 @@ This additional data allows the car to learn what to do if it the vehicle is not
 
 To further suplement the data I applied translations to the image to simulate the car driving on gradients by applying vertical translations to the image data. I also applied horizontal translations to the image data to further supplement data for cornering.
 
+To translate the image I defined a function to take an image and shift it a given number of pixels horizontally and vertically using the opencv function warpAffine.
+
+    def translate_image(image,tr_x,tr_y):
+        # Translation
+        rows = image.shape[0]
+        cols = image.shape[1]
+        Trans_M = np.float32([[1,0,tr_x],[0,1,tr_y]])
+        image_translate = cv2.warpAffine(image,Trans_M,(cols,rows))
+        return image_translate
+
+A second function is defined to generate a steering angle to accompany the translated image. The constants applied to the translation function are taken directly from Vivek's blog post.
+
+    def translate_angle(angle, tr_x, trans_range):
+        angle_translate = angle + tr_x/trans_range*2*.2   
+        return angle_translate
+
+    trans_range=60
+    tr_x = trans_range*np.random.uniform()-trans_range/2
+    tr_y = 40*np.random.uniform()-40/2
+    images.append(translate_image(image, tr_x, tr_y))
+    angles.append(translate_angle(angle, tr_x, trans_range))
+                    
 Input Image | Translated Image Example 1 | Translated Image Example 2 | Translated Image Example 3
 ------------|------------|------------|------------
-![Centre Image](examples/center_2016_12_01_13_32_43_457.jpg) |![Image Translate 1](examples/center_2016_12_01_13_32_43_457_translate_0.jpg)|![Image Translate 1](examples/center_2016_12_01_13_32_43_457_translate_1.jpg)|![Image Translate 2](examples/center_2016_12_01_13_32_43_457_translate_2.jpg)
+![Centre Image](examples/center_2016_12_01_13_32_43_457.jpg) |![Image Translate 0](examples/center_2016_12_01_13_32_43_457_translate_0.jpg)|![Image Translate 1](examples/center_2016_12_01_13_32_43_457_translate_1.jpg)|![Image Translate 2](examples/center_2016_12_01_13_32_43_457_translate_2.jpg)
 Steering Angle | Augmented Steering Angle | Augmented Steering Angle | Augmented Steering Angle 
 0.0617599 | 0.2400561374026167 | -0.030398056564315934 | 0.04933732241641371
 
+
+### Random Shadow Augmentation
+
+I also copied Vivek Yadavs method of simulating shadows across the image. There are changes in the colour of the road however this augmentation technique is more relevant to the second track where there are a number of points around the track where shadows are cast accross the road.
+
+    def shadow_aug(image):
+        top_y = 320*np.random.uniform()
+        top_x = 0
+        bot_x = 160
+        bot_y = 320*np.random.uniform()
+        image_hls = cv2.cvtColor(image,cv2.COLOR_RGB2HLS)
+        shadow_mask = 0*image_hls[:,:,1]
+        X_m = np.mgrid[0:image.shape[0],0:image.shape[1]][0]
+        Y_m = np.mgrid[0:image.shape[0],0:image.shape[1]][1]
+
+        shadow_mask[((X_m-top_x)*(bot_y-top_y) -(bot_x - top_x)*(Y_m-top_y) >=0)]=1
+        if np.random.randint(2)==1:
+            random_bright = .5
+            cond1 = shadow_mask==1
+            cond0 = shadow_mask==0
+            if np.random.randint(2)==1:
+                image_hls[:,:,1][cond1] = image_hls[:,:,1][cond1]*random_bright
+            else:
+                image_hls[:,:,1][cond0] = image_hls[:,:,1][cond0]*random_bright    
+        image = cv2.cvtColor(image_hls,cv2.COLOR_HLS2RGB)
+        return image
+
+
+Input Image | Translated Image Example 1 | Translated Image Example 2 | Translated Image Example 3
+------------|------------|------------|------------
+![Centre Image](examples/center_2016_12_01_13_32_43_457.jpg) |![Image Shadow 0](examples/center_2016_12_01_13_32_43_457_shadow_0.jpg)|![Image Shadow 1](examples/center_2016_12_01_13_32_43_457_shadow_1.jpg)|![Image Shadow 2](examples/center_2016_12_01_13_32_43_457_shadow_2.jpg)
+
+This augmentation technique does not simulate a shift in the camera and therefore the steering angle which accompanies this augmentation technique is that recorded for the centre camera or derived for the left and right hand cameras as outlined earlier.
+ 
 ## Network Architecture
 
 
