@@ -107,6 +107,8 @@ A second function is defined to generate a steering angle to accompany the trans
         angle_translate = angle + tr_x/trans_range*2*.2   
         return angle_translate
 
+In the main augmentation code I generate a random translation factor in x and in y which I then pass to both translation functions.
+
     trans_range=60
     tr_x = trans_range*np.random.uniform()-trans_range/2
     tr_y = 40*np.random.uniform()-40/2
@@ -166,9 +168,11 @@ As discussed below when driving on the second test track with the NVIDIA network
 ## Results
 ### First Test Track
 Here is a video of my car driving around the test track using my first the car as it drives around the track.
-![Track1Video](examples/Track1.mp4)
+[![Test Track 1](http://img.youtube.com/vi/4JAOSOL8AaM/0.jpg)](http://www.youtube.com/watch?v=4JAOSOL8AaM)
 
 ### Second Test Track
+
+[![Test Track 2](http://img.youtube.com/vi/GJ1nuov5qo4/0.jpg)](http://www.youtube.com/watch?v=GJ1nuov5qo4)
 
 ## Second Network Architecture
 I thought that perhaps the reason I keep driving off the second track at the first sharp corner is because I was driving too fast into the corner. [Drive.py line xx](drive.py) sets the speed to a constant value. So I decided to build a second network that predicts the throttle and the steering angle. I built the network using the functional API from keras2.0 and TensorFlow1.3.
@@ -176,8 +180,11 @@ I thought that perhaps the reason I keep driving off the second track at the fir
 
 ### Steering and Speed Network on First Test Track
 
+[![Speed and Steering Test Track 1](http://img.youtube.com/vi/S24oqghSpZE/0.jpg)](http://www.youtube.com/watch?v=S24oqghSpZE)
+
 ### Steering and Speed Network on Second Test Track
 
+[![Speed and Steering Test Track 2](http://img.youtube.com/vi/O9UqGwBDQTM/0.jpg)](http://www.youtube.com/watch?v=O9UqGwBDQTM)
 
 ## Conclusions
 
