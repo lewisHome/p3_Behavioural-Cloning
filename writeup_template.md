@@ -195,10 +195,12 @@ I modified the drive.py file to allow control of the throttle and steering. The 
 
 ### Steering and Speed Network on First Test Track
 The car does not drive around the first track as well as the NVIDIA network, it is a bit unsteady. This could potentially be solved by running the network for another epoch however the network took a number of hours to train so I haven't done that.
+
 [![Speed and Steering Test Track 1](http://img.youtube.com/vi/S24oqghSpZE/0.jpg)](http://www.youtube.com/watch?v=S24oqghSpZE)
 
 ### Steering and Speed Network on Second Test Track
 The car performs equally poorly on the second test track.
+
 [![Speed and Steering Test Track 2](http://img.youtube.com/vi/O9UqGwBDQTM/0.jpg)](http://www.youtube.com/watch?v=O9UqGwBDQTM)
 
 ## Conclusions
